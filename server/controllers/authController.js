@@ -57,7 +57,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   const verificationToken = newUser.createEmailVerificationToken();
 
   // Construct the verification link using the token
-  const verificationLink = `http://localhost:5173/verify-email?token=${verificationToken}`;
+  const verificationLink = `https://alvin-devlinks.vercel.app/verify-email?token=${verificationToken}`;
   // Construct the email options
   const emailOptions = {
     email,
@@ -189,7 +189,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const resetPasswordToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false });
 
-  const resetPasswordLink = `http://localhost:5173/reset-password?token=${resetPasswordToken}`;
+  const resetPasswordLink = `https://alvin-devlinks.vercel.app/reset-password?token=${resetPasswordToken}`;
 
   const emailOptions = {
     email,
