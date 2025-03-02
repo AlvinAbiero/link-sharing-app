@@ -40,8 +40,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [https://github.com/Olatoyan/link-sharing-app](https://github.com/Olatoyan/link-sharing-app)
-- Live Site URL: [https://toyan-devlinks.vercel.app/](https://toyan-devlinks.vercel.app/)
+- Solution URL: [https://github.com/AlvinAbiero/link-sharing-app](https://github.com/AlvinAbiero/link-sharing-app)
+- Live Site URL: [https://alvin-devlinks.vercel.app/](https://alvin-devlinks.vercel.app/)
 
 ## My process
 
@@ -58,5 +58,5 @@ Users should be able to:
 
 ## Author
 
-- Frontend Mentor - [@olatoyan](https://www.frontendmentor.io/profile/olatoyan)
-- Twitter - [@Toyan](https://www.twitter.com/_annonnymouss_)
+- Frontend Mentor - [@alvinabiero](https://www.frontendmentor.io/profile/alvinabiero)
+- Twitter - [@Alvin_Abiero](https://www.twitter.com/Alvin_abiero)
