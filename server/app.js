@@ -12,6 +12,9 @@ const rateLimit = require("express-rate-limit");
 
 const app = express();
 
+// Enable trust proxy for Render.com (or any reverse proxy)
+app.set('trust proxy', 1);
+
 if (process.env.NODE_ENV === "production") {
   app.use(morgan("dev"));
 }
