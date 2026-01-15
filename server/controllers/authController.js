@@ -46,6 +46,13 @@ function createSendToken(user, statusCode, res) {
 
 exports.signup = catchAsync(async (req, res, next) => {
   const { email, password, confirmPassword } = req.body;
+
+  // Check if user already exists
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    return next(new AppError("User with this email already exists.", 400));
+  }
+
   // create new user from request body
   const newUser = new User({
     email,
@@ -56,8 +63,12 @@ exports.signup = catchAsync(async (req, res, next) => {
   // Call the method to create the email verification token
   const verificationToken = newUser.createEmailVerificationToken();
 
+  // Save the user to the database
+  await newUser.save();
+
   // Construct the verification link using the token
   const verificationLink = `https://alvin-devlinks.vercel.app/verify-email?token=${verificationToken}`;
+  // const verificationLink = `http://localhost:5000/verify-email?token=${verificationToken}`;
   // Construct the email options
   const emailOptions = {
     email,
@@ -76,15 +87,22 @@ exports.signup = catchAsync(async (req, res, next) => {
   };
 
   // Send verification email
-  await sendEmail(emailOptions);
-
-  res.status(201).json({
-    status: "success",
-    message: "Verification email sent. Please verify your email address.",
-  });
-
-  // Save the user to the database
-  await newUser.save();
+  try {
+    await sendEmail(emailOptions);
+    res.status(201).json({
+      status: "success",
+      message:
+        "Verification email sent. Please check your email to verify your account.",
+    });
+  } catch (error) {
+    // If email fails, still allow user to exist but notify them
+    console.error("Email sending failed:", error);
+    res.status(201).json({
+      status: "success",
+      message:
+        "Account created but verification email failed to send. Please contact support.",
+    });
+  }
 });
 
 exports.verifyEmail = catchAsync(async (req, res, next) => {
