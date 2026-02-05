@@ -1,27 +1,49 @@
-const { Resend } = require("resend");
+// const brevo = require('@getbrevo/brevo');
+import {
+  TransactionalEmailsApi,
+  SendSmtpEmail,
+  TransactionalEmailsApiApiKeys,
+} from "@getbrevo/brevo";
 
 const sendEmail = async (options) => {
   try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    // Initialize API instance
+    const apiInstance = new TransactionalEmailsApi();
 
-    const { data, error } = await resend.emails.send({
-      from: "Devlinks <onboarding@resend.dev>",
-      to: options.email,
-      subject: options.subject,
-      html: options.message,
-    });
+    // Set API key
+    apiInstance.authentications.apiKey.apiKey = process.env.BREVO_API_KEY;
+    // apiInstance.setApiKey(
+    //   TransactionalEmailsApiApiKeys.apiKey,
+    //   process.env.BREVO_API_KEY,
+    // );
 
-    if (error) {
-      console.error("Resend error:", error);
-      throw new Error(error.message);
-    }
+    // create email object
+    const sendSmtpEmail = new SendSmtpEmail();
 
-    console.log("Email sent successfully via Resend:", data.id);
-    return data;
+    // Set Sender
+    sendSmtpEmail.sender = {
+      name: "Devlinks",
+      email: "abieroalvin@gmail.com",
+    };
+
+    // Set Recipient
+    sendSmtpEmail.to = [
+      {
+        email: options.email,
+      },
+    ];
+
+    //  Set subject and HTML content
+    sendSmtpEmail.subject = options.subject;
+    sendSmtpEmail.htmlContent = options.message;
+
+    //  Send the email
+    const result = await apiInstance.sendTransacEmail(sendSmtpEmail);
+
+    console.log("Email sent successfuly via Brevo:", result.body);
+    return result;
   } catch (error) {
-    console.error("Error sending email:", error);
+    console.error("Brevo error:", error);
     throw new Error(`Error sending email: ${error.message}`);
   }
 };
-
-module.exports = sendEmail;
