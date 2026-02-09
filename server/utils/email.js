@@ -47,3 +47,5 @@ const sendEmail = async (options) => {
     throw new Error(`Error sending email: ${error.message}`);
   }
 };
+
+module.exports = sendEmail;
