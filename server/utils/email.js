@@ -5,7 +5,7 @@ import {
   TransactionalEmailsApiApiKeys,
 } from "@getbrevo/brevo";
 
-const sendEmail = async (options) => {
+export async function sendEmail(options) {
   try {
     // Initialize API instance
     const apiInstance = new TransactionalEmailsApi();
@@ -46,6 +46,4 @@ const sendEmail = async (options) => {
     console.error("Brevo error:", error);
     throw new Error(`Error sending email: ${error.message}`);
   }
-};
-
-module.exports = sendEmail;
+}
