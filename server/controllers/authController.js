@@ -14,7 +14,7 @@ const signToken = (id) => {
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_EXPIRES_IN,
-    }
+    },
   );
 };
 
@@ -23,7 +23,7 @@ function createSendToken(user, statusCode, res) {
 
   const cookieOptions = {
     expires: new Date(
-      Date.now() + process.env.JWT_COOKIES_EXPIRES_IN * 24 * 60 * 60 * 1000
+      Date.now() + process.env.JWT_COOKIES_EXPIRES_IN * 24 * 60 * 60 * 1000,
     ),
     httpOnly: true,
   };
@@ -68,7 +68,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   // Construct the verification link using the token
   const verificationLink = `https://alvin-devlinks.vercel.app/verify-email?token=${verificationToken}`;
-  // const verificationLink = `http://localhost:5000/verify-email?token=${verificationToken}`;
+  // const verificationLink = `http://localhost:5173/verify-email?token=${verificationToken}`;
   // Construct the email options
   const emailOptions = {
     email,
@@ -153,8 +153,8 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(
       new AppError(
         "Your email is not verified. Please verify your email address.",
-        401
-      )
+        401,
+      ),
     );
   }
 
@@ -175,7 +175,7 @@ exports.protected = catchAsync(async (req, res, next) => {
 
   if (!token) {
     return next(
-      new AppError("You are not logged in! Please log in to get access.", 401)
+      new AppError("You are not logged in! Please log in to get access.", 401),
     );
   }
   // 2) Verification token
@@ -185,7 +185,7 @@ exports.protected = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
     return next(
-      new AppError("The user belonging to this token  no longer exists.", 401)
+      new AppError("The user belonging to this token  no longer exists.", 401),
     );
   }
 
@@ -200,7 +200,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email });
   if (!user) {
     return next(
-      new AppError("We can't find a user with that email address.", 404)
+      new AppError("We can't find a user with that email address.", 404),
     );
   }
 
@@ -241,8 +241,8 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     return next(
       new AppError(
         "There was an error sending the password reset email. Please try again later.",
-        500
-      )
+        500,
+      ),
     );
   }
 });
@@ -261,7 +261,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   if (!user) {
     return next(
-      new AppError("Password reset token is invalid or has expired.", 400)
+      new AppError("Password reset token is invalid or has expired.", 400),
     );
   }
 

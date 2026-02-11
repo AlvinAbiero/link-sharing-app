@@ -13,7 +13,7 @@ const rateLimit = require("express-rate-limit");
 const app = express();
 
 // Enable trust proxy for Render.com (or any reverse proxy)
-app.set('trust proxy', 1);
+app.set("trust proxy", 1);
 
 if (process.env.NODE_ENV === "production") {
   app.use(morgan("dev"));
@@ -36,7 +36,8 @@ app.use("/devlinks-api", limiter);
 // Data Sanitization against NoSQL query injection
 app.use(mongoSanitize());
 
-app.use("/devlinks-api/v1/users", userRouter, linkRouter);
+app.use("/devlinks-api/v1/users", userRouter);
+app.use("/devlinks-api/v1/users", linkRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
