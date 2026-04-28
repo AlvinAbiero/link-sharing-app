@@ -67,7 +67,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   await newUser.save();
 
   // Construct the verification link using the token
-  const verificationLink = `https://link-sharing-app-iota-navy.vercel.app/verify-email?token=${verificationToken}`;
+  const verificationLink = `https://link-sharing-app-nu.vercel.app/verify-email?token=${verificationToken}`;
   // const verificationLink = `http://localhost:5173/verify-email?token=${verificationToken}`;
   // Construct the email options
   const emailOptions = {
