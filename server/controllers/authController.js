@@ -207,7 +207,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const resetPasswordToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false });
 
-  const resetPasswordLink = `https://alvin-devlinks.vercel.app/reset-password?token=${resetPasswordToken}`;
+  const resetPasswordLink = `https://link-sharing-app-nu.vercel.app/reset-password?token=${resetPasswordToken}`;
 
   const emailOptions = {
     email,
